@@ -1,6 +1,7 @@
-# TvMazeScraper
-
 **NOTE: Due to the (unfortunate?) choice of Azure Cosmos DB as my backend storage, paging performs horribly. Azure Cosmos DB [does not yet support paging](https://feedback.azure.com/forums/263030-azure-cosmos-db/suggestions/6350987--documentdb-allow-paging-skip-take) so we have to retrieve the entire result set and page server side.**
+
+
+# TvMazeScraper
 
 ASP.NET Core 2.2 API based off the [TvMaze API](http://www.tvmaze.com/api) that provides show and casting information with storage in [Azure Cosmos DB](https://azure.microsoft.com/en-us/services/cosmos-db/).
 
