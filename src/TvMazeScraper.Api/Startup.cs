@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
+using System.Net.Http;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -11,6 +13,8 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using Polly;
+using Polly.Extensions.Http;
 using TvMazeScraper.Api.Lib;
 using IHostingEnvironment = Microsoft.AspNetCore.Hosting.IHostingEnvironment;
 
@@ -45,7 +49,8 @@ namespace TvMazeScraper.Api
                 {
                     var baseUrl = Configuration["TvMazeApi:BaseUrl"];
                     client.BaseAddress = new Uri(baseUrl);
-                });
+                })
+                .AddPolicyHandler(GetRetryPolicy());
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -63,6 +68,14 @@ namespace TvMazeScraper.Api
 
             app.UseHttpsRedirection();
             app.UseMvc();
+        }
+
+        static IAsyncPolicy<HttpResponseMessage> GetRetryPolicy()
+        {
+            return HttpPolicyExtensions
+                .HandleTransientHttpError()
+                .OrResult(msg => msg.StatusCode == HttpStatusCode.TooManyRequests)
+                .WaitAndRetryAsync(10, retryAttempt => TimeSpan.FromSeconds(Math.Pow(2, retryAttempt)));
         }
     }
 }

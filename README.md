@@ -22,3 +22,5 @@ The application queries the [show updates](http://www.tvmaze.com/api#show-update
 For every show update we check whether the show is already inside Azure Cosmos DB:
 - if not, post a message to an internal queue that [show details](http://www.tvmaze.com/api#show-main-information) need to be fetched from the TvMaze API
 - if the show already exists inside Cosmos DB, compare updated timestamps and if a show is outdated, fetch it from the TvMaze API and update in Cosmos DB
+
+The application uses [Polly](https://docs.microsoft.com/en-us/dotnet/standard/microservices-architecture/implement-resilient-applications/implement-http-call-retries-exponential-backoff-polly) to implement exponential backoff in case of TvMaze API errors like a `429: Too many requests`.
