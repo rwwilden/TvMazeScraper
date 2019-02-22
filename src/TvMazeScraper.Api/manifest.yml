@@ -1,7 +1,7 @@
 ﻿---
 applications:
 - name: tvmazeapi
-  memory: 128M
+  memory: 1G
   disk: 500M
   instances: 1
   buildpacks:
