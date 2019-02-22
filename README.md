@@ -9,7 +9,7 @@ To get the application up-and-running, create a Cosmos DB account and provide th
 - Cosmos:Container (e.g.: `Shows`)
 - Cosmos:PrimaryKey (primary connection key for accessing your Cosmos DB acount)
 
-A version of this application is running on [http://tvmazeapi.cfapps.io/api/shows](http://tvmazeapi.cfapps.io/api/shows).
+A version of this application is running on [http://tvmazeapi.cfapps.io/api/shows?skip=0&take=10](http://tvmazeapi.cfapps.io/api/shows?skip=0&take=10).
 
 
 # Architecture

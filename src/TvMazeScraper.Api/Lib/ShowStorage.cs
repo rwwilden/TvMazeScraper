@@ -30,7 +30,7 @@ namespace TvMazeScraper.Api.Lib
         {
             var shows = new Dictionary<string, TvMazeShow>();
             var query = _container.Items
-                .CreateItemQuery<TvMazeShow>(new CosmosSqlQueryDefinition("SELECT * FROM c"), maxConcurrency: 4);
+                .CreateItemQuery<TvMazeShow>(new CosmosSqlQueryDefinition("SELECT * FROM c ORDER BY c.id"), maxConcurrency: 4);
             while (query.HasMoreResults)
             {
                 var tvMazeShows = await query.FetchNextSetAsync(ct);

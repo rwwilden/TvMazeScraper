@@ -1,4 +1,6 @@
 ﻿using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
@@ -18,12 +20,13 @@ namespace TvMazeScraper.Api.Controllers
         }
 
         [HttpGet]
-        public async Task<IEnumerable<TvMazeShow>> Get(CancellationToken ct)
+        public async Task<IEnumerable<TvMazeShow>> Get([Required] int skip, [Required] int take, CancellationToken ct = default)
         {
             var showsDictionary = await _showStorage.GetShowsAsync(ct);
 
-            // Sort cast on birthday.
-            var shows = showsDictionary.Values;
+            // Unfortunately, Cosmos DB does not yet support skip/take so we can not implement this at the storage level.
+            // https://feedback.azure.com/forums/263030-azure-cosmos-db/suggestions/6350987--documentdb-allow-paging-skip-take
+            var shows = showsDictionary.Values.Skip(skip).Take(take);
             return shows;
         }
     }
